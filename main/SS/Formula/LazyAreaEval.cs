@@ -110,5 +110,10 @@ namespace NPOI.SS.Formula
             SheetRefEvaluator _sre = _evaluator.GetSheetEvaluator(_evaluator.FirstSheetIndex);
             return _sre.IsSubTotal(FirstRow + rowIndex, FirstColumn + columnIndex);
         }
+
+        public override bool IsRowHidden(int rowIndex)
+        {
+            return _evaluator.GetSheetEvaluator(FirstSheetIndex).Sheet.Sheet.GetRow(FirstRow + rowIndex).Hidden == true;            
+        }
     }
 }

@@ -142,6 +142,9 @@ namespace NPOI.SS.Formula.Eval
         {
             get { return _firstRow == _lastRow; }
         }
+
+        public abstract bool IsRowHidden(int rowIndex);
+
         public ValueEval GetAbsoluteValue(int row, int col)
         {
             int rowOffsetIx = row - _firstRow;

@@ -42,6 +42,8 @@ namespace NPOI.SS.Formula
          */
         bool IsRow { get; }
 
+        bool IsRowHidden(int rowIndex);
+
         /**
          * @return <c>true</c> if the area has just a single column, this also includes
          * the trivial case when the area has just a single cell.

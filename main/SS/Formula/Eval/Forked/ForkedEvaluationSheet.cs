@@ -36,6 +36,8 @@ namespace NPOI.SS.Formula.Eval.Forked
     {
 
         private IEvaluationSheet _masterSheet;
+
+        public ISheet Sheet => _masterSheet.Sheet;
         /**
          * Only cells which have been split are Put in this map.  (This has been done to conserve memory).
          */

@@ -60,25 +60,28 @@ namespace NPOI.SS.Formula.Functions
 
         private static Function FindFunction(int functionCode)
         {
+            var excludeHiddenRows = false;
+            if (functionCode > 100 && functionCode < 112)
+            {
+                functionCode -= 100;
+                excludeHiddenRows = true;
+            }
             //Function func;
             switch (functionCode)
             {
-                case 1: return AggregateFunction.SubtotalInstance(AggregateFunction.AVERAGE);
-                case 2: return Count.SubtotalInstance();
-                case 3: return Counta.SubtotalInstance();
-                case 4: return AggregateFunction.SubtotalInstance(AggregateFunction.MAX);
-                case 5: return AggregateFunction.SubtotalInstance(AggregateFunction.MIN);
-                case 6: return AggregateFunction.SubtotalInstance(AggregateFunction.PRODUCT);
-                case 7: return AggregateFunction.SubtotalInstance(AggregateFunction.STDEV);
+                case 1: return AggregateFunction.SubtotalInstance(AggregateFunction.AVERAGE, excludeHiddenRows);
+                case 2: return Count.SubtotalInstance(excludeHiddenRows);
+                case 3: return Counta.SubtotalInstance(excludeHiddenRows);
+                case 4: return AggregateFunction.SubtotalInstance(AggregateFunction.MAX, excludeHiddenRows);
+                case 5: return AggregateFunction.SubtotalInstance(AggregateFunction.MIN, excludeHiddenRows);
+                case 6: return AggregateFunction.SubtotalInstance(AggregateFunction.PRODUCT, excludeHiddenRows);
+                case 7: return AggregateFunction.SubtotalInstance(AggregateFunction.STDEV, excludeHiddenRows);
                 case 8: throw new NotImplementedFunctionException("STDEVP");
-                case 9: return AggregateFunction.SubtotalInstance(AggregateFunction.SUM);
+                case 9: return AggregateFunction.SubtotalInstance(AggregateFunction.SUM, excludeHiddenRows);
                 case 10: throw new NotImplementedFunctionException("VAR");
                 case 11: throw new NotImplementedFunctionException("VARP");
             }
-            if (functionCode > 100 && functionCode < 112)
-            {
-                throw new NotImplementedException("SUBTOTAL - with 'exclude hidden values' option");
-            }
+
             throw EvaluationException.InvalidValue();
         }
 

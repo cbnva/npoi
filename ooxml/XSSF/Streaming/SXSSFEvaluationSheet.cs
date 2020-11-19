@@ -23,6 +23,8 @@ namespace NPOI.XSSF.Streaming
     {
         private SXSSFSheet _xs;
 
+        public SS.UserModel.ISheet Sheet => _xs;
+
         public SXSSFEvaluationSheet(SXSSFSheet sheet)
         {
             _xs = sheet;

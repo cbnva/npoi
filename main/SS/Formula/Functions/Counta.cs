@@ -88,8 +88,15 @@ namespace NPOI.SS.Formula.Functions
             }
         }
         private static IMatchPredicate subtotalPredicate = new SubtotalPredicate();
+        private static IMatchPredicate subtotalPredicateExcludeHiddenRows = new SubtotalPredicate(true);
         public class SubtotalPredicate : I_MatchAreaPredicate
         {
+            public bool ExcludeHiddenRows { get; set; }
+            public SubtotalPredicate(bool excludeHiddenRows = false)
+            {
+                this.ExcludeHiddenRows = excludeHiddenRows;
+            }
+
             public bool Matches(ValueEval valueEval)
             {
                 return defaultPredicate.Matches(valueEval);
@@ -100,13 +107,17 @@ namespace NPOI.SS.Formula.Functions
              */
             public bool Matches(TwoDEval areEval, int rowIndex, int columnIndex)
             {
+                if (ExcludeHiddenRows && areEval.IsRowHidden(rowIndex))
+                {
+                    return false;
+                }
                 return !areEval.IsSubTotal(rowIndex, columnIndex);
             }
 
         }
-        public static Counta SubtotalInstance()
+        public static Counta SubtotalInstance(bool excludeHiddenRows = false)
         {
-            return new Counta(subtotalPredicate);
+            return new Counta(excludeHiddenRows ? subtotalPredicateExcludeHiddenRows : subtotalPredicate);
         }
     }
 }

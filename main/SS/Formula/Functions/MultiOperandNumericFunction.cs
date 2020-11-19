@@ -146,6 +146,13 @@ namespace NPOI.SS.Formula.Functions
                     int height = ae.Height;
                     for (int rrIx = 0; rrIx < height; rrIx++)
                     {
+                        if((this as SubtotalInstance)?.ExcludeHiddenRows == true)
+                        {
+                            if (ae.IsRowHidden(rrIx))
+                            {
+                              continue;
+                            }
+                        }
                         for (int rcIx = 0; rcIx < width; rcIx++)
                         {
                             ValueEval ve = ae.GetValue(sIx, rrIx, rcIx);

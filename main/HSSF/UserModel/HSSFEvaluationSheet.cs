@@ -35,6 +35,8 @@ namespace NPOI.HSSF.UserModel
             _hs = hs;
         }
 
+        public ISheet Sheet => _hs;
+
         public HSSFSheet HSSFSheet
         {
             get

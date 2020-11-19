@@ -39,5 +39,7 @@ namespace NPOI.SS.Formula
          * @see EvaluationWorkbook#clearAllCachedResultValues()
          */
         void ClearAllCachedResultValues();
+
+        UserModel.ISheet Sheet { get; }
     }
 }

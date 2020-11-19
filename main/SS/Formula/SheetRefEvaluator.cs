@@ -60,7 +60,7 @@ namespace NPOI.SS.Formula
             return _bookEvaluator.EvaluateReference(this.Sheet, _sheetIndex, rowIndex, columnIndex, _tracker);
         }
 
-        private IEvaluationSheet Sheet
+        internal IEvaluationSheet Sheet
         {
             get
             {

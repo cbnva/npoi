@@ -42,7 +42,7 @@ namespace NPOI.SS.Formula.Functions
             _predicate = defaultPredicate;
         }
 
-        private Count(IMatchPredicate criteriaPredicate)
+        private Count(IMatchPredicate criteriaPredicate, bool excludeHiddenRows = false)
         {
             _predicate = criteriaPredicate;
         }
@@ -94,6 +94,11 @@ namespace NPOI.SS.Formula.Functions
         private static IMatchPredicate defaultPredicate = new DefaultPredicate();
         private class SubtotalPredicate : I_MatchAreaPredicate
         {
+            public bool ExcludeHiddenRows { get; set; }
+            public SubtotalPredicate(bool excludeHiddenRows = false)
+            {
+                this.ExcludeHiddenRows = excludeHiddenRows;
+            }
             public bool Matches(ValueEval valueEval)
             {
                 return defaultPredicate.Matches(valueEval);
@@ -102,12 +107,17 @@ namespace NPOI.SS.Formula.Functions
 
             public bool Matches(TwoDEval x, int rowIndex, int columnIndex)
             {
+                if(ExcludeHiddenRows && x.IsRowHidden(rowIndex))
+                {
+                    return false;
+                }
                 return !x.IsSubTotal(rowIndex, columnIndex);
             }
 
         }
 
         private static IMatchPredicate subtotalPredicate = new SubtotalPredicate();
+        private static IMatchPredicate subtotalPredicateExcludeHiddenRows = new SubtotalPredicate(true);
         /**
      *  Create an instance of Count to use in {@link Subtotal}
      * <p>
@@ -117,9 +127,9 @@ namespace NPOI.SS.Formula.Functions
      *
      *  @see Subtotal
      */
-        public static Count SubtotalInstance()
+        public static Count SubtotalInstance(bool excludeHiddenRows = false)
         {
-            return new Count(subtotalPredicate);
+            return new Count(excludeHiddenRows ? subtotalPredicateExcludeHiddenRows : subtotalPredicate);
         }
     }
 }

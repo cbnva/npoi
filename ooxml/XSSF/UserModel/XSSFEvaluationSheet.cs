@@ -104,6 +104,8 @@ namespace NPOI.XSSF.UserModel
             return evalcell;
         }
 
+        public ISheet Sheet => _xs;
+
         private class CellKey
         {
             private int _row;

@@ -153,9 +153,10 @@ namespace NPOI.SS.Formula.Functions
     public class SubtotalInstance : AggregateFunction
     {
         private AggregateFunction _func;
-        public SubtotalInstance(AggregateFunction func)
+        public SubtotalInstance(AggregateFunction func, bool excludeHiddenRows = false)
         {
             _func = func;
+            this.ExcludeHiddenRows = excludeHiddenRows;
         }
 
         protected internal override double Evaluate(double[] values)
@@ -172,6 +173,8 @@ namespace NPOI.SS.Formula.Functions
                 return false;
             }
         }
+
+        public bool ExcludeHiddenRows { get; set; }
     }
 
 
@@ -309,10 +312,10 @@ namespace NPOI.SS.Formula.Functions
      */
     public abstract class AggregateFunction : MultiOperandNumericFunction
     {
-        public static Function SubtotalInstance(Function func)
+        public static Function SubtotalInstance(Function func, bool excludeHiddenRows = false)
         {
             AggregateFunction arg = (AggregateFunction)func;
-            return new SubtotalInstance(arg);
+            return new SubtotalInstance(arg, excludeHiddenRows);
         }
         internal class ValueCollector : MultiOperandNumericFunction
         {
